@@ -20,13 +20,16 @@ const updateEntity = (tableName, entity) => {
     try {
         const entityId = entity.id;
         const updateEntity = db[tableName].find(entity => entity.id === entityId);
-        for (let field of Object.keys(entity)) {
-            if (updateEntity[field]) {
-                updateEntity[field] = entity[field];
+        if (updateEntity) {
+            for (let field of Object.keys(entity)) {
+                if (updateEntity[field]) {
+                    updateEntity[field] = entity[field];
+                }
             }
+            return updateEntity;
+        } else {
+            console.error(tableName + ' does not contain ' + JSON.stringify(entity));
         }
-
-        return updateEntity;
 
     } catch(error) {
         throw new Error(error);
