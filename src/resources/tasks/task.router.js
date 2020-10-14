@@ -7,8 +7,8 @@ const taskService = require('./task.service');
 //   res.status(200).json(tasks);
 // });
 
-router.route('/:boardId/tasks').get(async (req, res) => {
-  const boardId = req.params.boardId;
+router.route('/').get(async (req, res) => {
+  const boardId = req.boardId;
   const allTasks = await taskService.getAll();
   const tasksByBoardId = allTasks.filter(task => task.boardId === boardId)
 
@@ -19,8 +19,8 @@ router.route('/:boardId/tasks').get(async (req, res) => {
   }
 });
 
-router.route('/:boardId/tasks').post(async (req, res) => {
-  const boardId = req.params.boardId;
+router.route('/').post(async (req, res) => {
+  const boardId = req.boardId;
   const { title, order, description, userId, columnId } = req.body;
   const newTask = new Task({
     title,
@@ -39,8 +39,9 @@ router.route('/:boardId/tasks').post(async (req, res) => {
   }
 });
 
-router.route('/:boardId/tasks/:taskId').get(async (req, res) => {
-  const { boardId, taskId } = req.params;
+router.route('/:taskId').get(async (req, res) => {
+  const boardId = req.boardId;
+  const { taskId } = req.params;
   const task = await taskService.getById(taskId); // Expecting that task has the unique ID
 
   if (task && task.boardId === boardId) {
@@ -50,11 +51,12 @@ router.route('/:boardId/tasks/:taskId').get(async (req, res) => {
   }
 });
 
-router.route('/:boardId/tasks/:taskId').put(async (req, res) => {
-  const { boardId, taskId } = req.params;
+router.route('/:taskId').put(async (req, res) => {
+  const boardId = req.boardId;
+  const { taskId } = req.params;
   const { title, order, description, userId, columnId } = req.body;
   const updateTask = new Task({
-    taskId,
+    id: taskId,
     title,
     order,
     description,
@@ -70,8 +72,9 @@ router.route('/:boardId/tasks/:taskId').put(async (req, res) => {
   }
 });
 
-router.route('/:boardId/tasks/:taskId').delete(async (req, res) => {
-  const { boardId, taskId } = req.params;
+router.route('/:taskId').delete(async (req, res) => {
+  const boardId = req.boardId;
+  const { taskId } = req.params;
   const deletedBoard = await taskService.remove(taskId);
   if (deletedBoard) {
     res.status(204).json(deletedBoard);

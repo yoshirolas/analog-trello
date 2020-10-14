@@ -54,21 +54,12 @@ router.route('/:id').put(async (req, res) => {
 router.route('/:id').delete(async (req, res) => {
   const id = req.params.id;
   const deletedBoard = await boardService.remove(id);
-  if (deletedBoard) {
-    const allTasks = await taskService.getAll();
-    allTasks.forEach(async task => {
-      await taskService.remove((task.id))
-    });
-    
+  if (deletedBoard) {   
     res.status(204).json(deletedBoard);
   } else {
     res.status(404).send('Could not delete Board: ' + id);
   }
 });
-
-
-//Tasks
-router.use('/', taskRouter);
 
 
 module.exports = router;

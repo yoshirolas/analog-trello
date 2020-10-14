@@ -25,4 +25,13 @@ app.use('/users', userRouter);
 
 app.use('/boards', boardRouter);
 
+app.use('/boards/:boardId/tasks', 
+  (req, res, next) => {
+    req.boardId = req.params.boardId;
+    next();
+  },
+  taskRouter
+);
+
+
 module.exports = app;

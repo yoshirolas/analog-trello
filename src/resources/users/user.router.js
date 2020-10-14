@@ -56,13 +56,6 @@ router.route('/:id').delete(async (req, res) => {
   const id = req.params.id;
   const deletedUser = await usersService.remove(id);
   if (deletedUser) {
-    const allTasks = await taskService.getAll();
-    allTasks.forEach(async task => {
-      if (task.userId === id) {
-        await taskService.update({...task, userId: null});
-      }
-    });
-
     res.status(200).json(User.toResponse(deletedUser));
   } else {
     res.status(400).send('Could not delete User: ' + id);
