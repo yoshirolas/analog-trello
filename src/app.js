@@ -2,7 +2,9 @@ const express = require('express');
 const swaggerUI = require('swagger-ui-express');
 const path = require('path');
 const YAML = require('yamljs');
-const {shouldSkipLogByUrl, setUpLogger} = require('./common/logger');
+const { setUpLogger } = require('./common/logger');
+const errorHandler = require('./common/errorHandrer');
+
 const userRouter = require('./resources/users/user.router');
 const boardRouter = require('./resources/boards/board.router');
 const taskRouter = require('./resources/tasks/task.router');
@@ -43,6 +45,8 @@ app.use('/boards/:boardId/tasks',
   },
   taskRouter
 );
+
+app.use(errorHandler);
 
 
 module.exports = app;
