@@ -1,10 +1,12 @@
-
+const { setUpErrorLogger } = require('./logger');
 
 const errorHandler = (err, req, res, next) => {
-    console.log('!!!status: ', err.status)
-    console.log('!!!status: ', err.message)
-
-    if (!err.status) res.status(500).send('Internal Server Error');
+    if (!err.status) {
+        err.status = 500;
+        err.message = 'Internal Server Error'
+        setUpErrorLogger(err);
+        res.status(err.status).send(err.message);
+    }
     res.status(err.status).send(err.message);
 };
 
