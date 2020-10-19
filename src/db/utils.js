@@ -1,4 +1,5 @@
 const db = require('./schema');
+const createErr = require('http-errors');
 
 const getAllEntities = (tableName) => {
     return db[tableName];
@@ -17,22 +18,17 @@ const createEntity = (tableName, entity) => {
 };
 
 const updateEntity = (tableName, entity) => {
-    try {
-        const entityId = entity.id;
-        const updateEntity = db[tableName].find(entity => entity.id === entityId);
-        if (updateEntity) {
-            for (let field of Object.keys(entity)) {
-                if (updateEntity[field]) {
-                    updateEntity[field] = entity[field];
-                }
+    const entityId = entity.id;
+    const updateEntity = db[tableName].find(entity => entity.id === entityId);
+    if (updateEntity) {
+        for (let field of Object.keys(entity)) {
+            if (updateEntity[field]) {
+                updateEntity[field] = entity[field];
             }
-            return updateEntity;
-        } else {
-            console.error(tableName + ' does not contain ' + JSON.stringify(entity));
         }
-
-    } catch(error) {
-        throw new Error(error);
+        return updateEntity;
+    } else {
+        createErr(404, tableName + ' does not contain ' + JSON.stringify(entity));
     }
 };
 
