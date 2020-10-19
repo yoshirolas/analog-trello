@@ -43,4 +43,11 @@ const unsubscribeUserTasks = async (id) => {
     }
 };
 
-module.exports = { getAll, getById, add, update, remove, unsubscribeUserTasks, getTasksByBoardId };
+const unsubscribeBoardTasks = async (id) => {
+    const allTasks = await getAll();
+    for (let task of allTasks) {
+      if (task.boardId === id) await remove(task.id);
+    }
+};
+
+module.exports = { getAll, getById, add, update, remove, unsubscribeUserTasks, getTasksByBoardId, unsubscribeBoardTasks };
