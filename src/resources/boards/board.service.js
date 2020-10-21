@@ -6,9 +6,9 @@ const getAll = () => boardsRepo.getAll();
 
 const getById = async id => {
   const board = await boardsRepo.getById(id);
-  if (!board) throw new createErr(404, 'Board ' + id + ' has not been found in DB');
+  if (!board) throw new createErr(404, `Board ${id} has not been found in DB`);
   return board;
-}
+};
 
 const add = async board => {
   const newBoard = await boardsRepo.add(board);
@@ -18,13 +18,15 @@ const add = async board => {
 
 const update = async board => {
   const updatedBoard = boardsRepo.update(board);
-  if (!updatedBoard) throw new createErr(400, 'Could not update Board: ' + board.id);
+  if (!updatedBoard) {
+    throw new createErr(400, `Could not update Board: ${board.id}`);
+  }
   return updatedBoard;
-}
+};
 
 const remove = async id => {
   const removedBoard = await boardsRepo.remove(id);
-  if (!removedBoard) throw new createErr(404, 'Could not delete Board: ' + id);
+  if (!removedBoard) throw new createErr(404, `Could not delete Board: ${id}`);
   taskService.unsubscribeBoardTasks(id);
   return removedBoard;
 };
