@@ -36,8 +36,8 @@ router.route('/:id').put(async (req, res, next) => {
   try {
     const id = req.params.id;
     const { name, login, password } = req.body;
-    const updateUser = new User({ id, name, login, password });
-    const user = await usersService.update(updateUser);
+    const updateUserData = { id, name, login, password };
+    const user = await usersService.update(updateUserData);
     res.status(200).json(User.toResponse(user));
   } catch (error) {
     return next(error);
