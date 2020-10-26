@@ -1,13 +1,11 @@
-const createErr = require('http-errors');
-
 const getAllEntities = async mongooseModel => {
-    const entities = await mongooseModel.find({});
-    return entities;
+  const entities = await mongooseModel.find({});
+  return entities;
 };
 
 const getEntity = async (mongooseModel, id) => {
-    const entity = await mongooseModel.findById(id);
-    return entity;
+  const entity = await mongooseModel.findById(id);
+  return entity;
 };
 
 const createEntity = async (mongooseModel, entity) => {
@@ -19,13 +17,16 @@ const createEntity = async (mongooseModel, entity) => {
 };
 
 const updateEntity = async (mongooseModel, entity) => {
-    const updatedEntity = await mongooseModel.updateOne({_id: entity.id}, {...entity});
-    return updatedEntity;
+  const updatedEntity = await mongooseModel.updateOne(
+    { _id: entity.id },
+    { ...entity }
+  );
+  return updatedEntity;
 };
 
 const removeEntity = async (mongooseModel, id) => {
-    const deletedEntity = await mongooseModel.remove({_id: id}); //TODO: returns not deletedUser
-    return deletedEntity;
+  const deletedEntity = await mongooseModel.remove({ _id: id }); // TODO: returns not deletedUser
+  return deletedEntity;
 };
 
 module.exports = {

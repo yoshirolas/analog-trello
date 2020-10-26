@@ -27,5 +27,4 @@ const remove = async id => {
   return deletedEntity;
 };
 
-
 module.exports = { getAll, getById, add, update, remove };

@@ -2,8 +2,8 @@ const { USE_MONGO } = require('./../../common/config');
 const taskService = require('./../tasks/task.service');
 const createErr = require('http-errors');
 
-const usersRepo = USE_MONGO 
-  ? require('./user.mongo.repository') 
+const usersRepo = USE_MONGO
+  ? require('./user.mongo.repository')
   : require('./user.memory.repository');
 
 const getAll = () => usersRepo.getAll();

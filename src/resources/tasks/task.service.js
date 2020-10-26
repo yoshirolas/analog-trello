@@ -1,6 +1,6 @@
 const { USE_MONGO } = require('./../../common/config');
 const createErr = require('http-errors');
-const tasksRepo = USE_MONGO 
+const tasksRepo = USE_MONGO
   ? require('./task.mongo.repository')
   : require('./task.memory.repository');
 
@@ -50,8 +50,16 @@ const unsubscribeUserTasks = async id => {
   const allTasks = await getAll();
   for (const task of allTasks) {
     if (task.userId === id) {
-      const { _id, title, order, description, userId, boardId, columnId } = task;
-      await update({ id: _id, title, order, description, userId: null, boardId, columnId });
+      const { _id, title, order, description, boardId, columnId } = task;
+      await update({
+        id: _id,
+        title,
+        order,
+        description,
+        userId: null,
+        boardId,
+        columnId
+      });
     }
   }
 };

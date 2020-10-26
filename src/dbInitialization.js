@@ -28,9 +28,9 @@ const connect = onSuccessConnection => {
           password: '123'
         });
         const newBoard = new Board({
-            title: `board-${i}`,
-            columns: [new Column()]
-          });
+          title: `board-${i}`,
+          columns: [new Column()]
+        });
         newUser.save();
         newBoard.save();
       }

@@ -4,7 +4,6 @@ const Board = require('./board.model');
 
 const mongooseModel = Board;
 
-
 const getAll = async () => {
   const entities = await dbUtils.getAllEntities(mongooseModel);
   return entities;
