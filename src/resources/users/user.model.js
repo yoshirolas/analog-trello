@@ -12,8 +12,8 @@ const userSchema = new mongoose.Schema({
 });
 
 userSchema.statics.toResponse = (user) => {
-  const { id, name, login } = user;
-  return { id, name, login };
+  const { _id, name, login } = user;
+  return { id: _id, name, login };
 };
 
 const User = mongoose.model('User', userSchema);

@@ -1,7 +1,8 @@
-const tasksRepo = require('./task.memory.repository');
+// const tasksRepo = require('./task.memory.repository');
+const tasksRepo = require('./task.mongo.repository');
 const createErr = require('http-errors');
 
-const getAll = () => tasksRepo.getAll();
+const getAll = async () => await tasksRepo.getAll();
 
 const getById = async id => {
   const task = await tasksRepo.getById(id);
@@ -47,7 +48,8 @@ const unsubscribeUserTasks = async id => {
   const allTasks = await getAll();
   for (const task of allTasks) {
     if (task.userId === id) {
-      await update({ ...task, userId: null });
+      const { _id, title, order, description, userId, boardId, columnId } = task;
+      await update({ id: _id, title, order, description, userId: null, boardId, columnId });
     }
   }
 };
@@ -55,7 +57,7 @@ const unsubscribeUserTasks = async id => {
 const unsubscribeBoardTasks = async id => {
   const allTasks = await getAll();
   for (const task of allTasks) {
-    if (task.boardId === id) await remove(task.id);
+    if (task.boardId === id) await remove(task._id);
   }
 };
 

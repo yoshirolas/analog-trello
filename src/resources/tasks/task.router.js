@@ -6,7 +6,7 @@ router.route('/').get(async (req, res, next) => {
   try {
     const boardId = req.boardId;
     const tasksByBoardId = await taskService.getTasksByBoardId(boardId);
-    res.status(200).json(tasksByBoardId);
+    res.status(200).json(tasksByBoardId.map(t => Task.toResponse(t)));
   } catch (error) {
     return next(error);
   }
@@ -26,7 +26,7 @@ router.route('/').post(async (req, res, next) => {
     });
 
     const task = await taskService.add(newTask);
-    res.status(200).json(task);
+    res.status(200).json(Task.toResponse(task));
   } catch (error) {
     return next(error);
   }
@@ -36,7 +36,7 @@ router.route('/:taskId').get(async (req, res, next) => {
   try {
     const { taskId } = req.params;
     const task = await taskService.getById(taskId); // Expecting that task has the unique ID
-    res.status(200).json(task);
+    res.status(200).json(Task.toResponse(task));
   } catch (error) {
     return next(error);
   }
@@ -47,7 +47,7 @@ router.route('/:taskId').put(async (req, res, next) => {
     const boardId = req.boardId;
     const { taskId } = req.params;
     const { title, order, description, userId, columnId } = req.body;
-    const updateTask = new Task({
+    const updateTaskData = {
       id: taskId,
       title,
       order,
@@ -55,9 +55,9 @@ router.route('/:taskId').put(async (req, res, next) => {
       boardId,
       userId,
       columnId
-    });
-    const updatedTask = await taskService.update(updateTask);
-    res.status(200).json(updatedTask);
+    };
+    const updatedTask = await taskService.update(updateTaskData);
+    res.status(200).json(Task.toResponse(updatedTask));
   } catch (error) {
     return next(error);
   }

@@ -28,7 +28,7 @@ const update = async board => {
 const remove = async id => {
   const removedBoard = await boardsRepo.remove(id);
   if (!removedBoard) throw new createErr(404, `Could not delete Board: ${id}`);
-  taskService.unsubscribeBoardTasks(id);
+  await taskService.unsubscribeBoardTasks(id);
   return removedBoard;
 };
 

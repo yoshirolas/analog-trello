@@ -28,7 +28,7 @@ const update = async user => {
 const remove = async id => {
   const deletedUser = await usersRepo.remove(id);
   if (!deletedUser) throw new createErr(400, `Could not delete User: ${id}`);
-  taskService.unsubscribeUserTasks(id);
+  await taskService.unsubscribeUserTasks(id);
   return deletedUser;
 };
 
