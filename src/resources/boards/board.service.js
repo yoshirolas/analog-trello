@@ -1,7 +1,10 @@
-// const boardsRepo = require('./board.memory.repository');
-const boardsRepo = require('./board.mongo.repository');
+const { USE_MONGO } = require('./../../common/config');
 const taskService = require('./../tasks/task.service');
 const createErr = require('http-errors');
+const boardsRepo = USE_MONGO 
+  ? require('./board.mongo.repository')
+  : require('./board.memory.repository');
+
 
 const getAll = () => boardsRepo.getAll();
 

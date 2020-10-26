@@ -1,6 +1,8 @@
-// const tasksRepo = require('./task.memory.repository');
-const tasksRepo = require('./task.mongo.repository');
+const { USE_MONGO } = require('./../../common/config');
 const createErr = require('http-errors');
+const tasksRepo = USE_MONGO 
+  ? require('./task.mongo.repository')
+  : require('./task.memory.repository');
 
 const getAll = async () => await tasksRepo.getAll();
 
