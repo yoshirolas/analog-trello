@@ -51,7 +51,8 @@ app.use('/users', userRouter);
 
 app.use('/boards', boardRouter);
 
-app.use('/boards/:boardId/tasks', 
+app.use(
+  '/boards/:boardId/tasks',
   (req, res, next) => {
     req.boardId = req.params.boardId;
     next();
@@ -60,6 +61,5 @@ app.use('/boards/:boardId/tasks',
 );
 
 app.use(errorHandler);
-
 
 module.exports = app;
