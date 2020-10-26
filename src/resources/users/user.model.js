@@ -1,7 +1,7 @@
 const uuid = require('uuid');
 const { USE_MONGO } = require('./../../common/config');
 
-class UserInMemory {
+class UserInMemoryModel {
   constructor({
     id = uuid(),
     name = 'USER',
@@ -41,6 +41,6 @@ const getUserMongoModel = () => {
   return mongoose.model('User', userSchema);
 };
 
-const User = USE_MONGO ? getUserMongoModel() : UserInMemory;
+const User = USE_MONGO ? getUserMongoModel() : UserInMemoryModel;
 
 module.exports = User;
