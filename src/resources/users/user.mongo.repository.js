@@ -28,29 +28,5 @@ const remove = async id => {
   return deletedUser;
 };
 
-// const getAll = async () => {
-//   const users = await User.find({});
-//   return users;
-// };
-
-// const getById = async id => {
-//   const user = await User.findById(id);
-//   return user;
-// };
-
-// const add = async user => {
-//   const newUser = await user.save();
-//   return newUser;
-// };
-
-// const update = async user => {
-//   const updatedUser = await User.updateOne({_id: user.id}, {...user});
-//   return updatedUser;
-// };
-
-// const remove = async id => {
-//   const deletedUser = await User.remove({_id: id}); //TODO: returns not deletedUser
-//   return deletedUser;
-// };
 
 module.exports = { getAll, getById, add, update, remove };

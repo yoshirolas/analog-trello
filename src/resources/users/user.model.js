@@ -1,4 +1,5 @@
 const uuid = require('uuid');
+const bcrypt = require('bcrypt');
 const { USE_MONGO } = require('./../../common/config');
 
 class UserInMemoryModel {
@@ -32,6 +33,18 @@ const getUserMongoModel = () => {
     login: String,
     password: String
   });
+
+  userSchema.statics.encodePassword = async (requestUserPassword, userId = null) => {
+    if (userId) {
+      const user = await mongoose.model('User', userSchema).findById(userId);
+      const isItOldPassword = await bcrypt.compare(requestUserPassword, user.password);
+      if (isItOldPassword) return user.password; // Don't encode the same password double
+    }
+
+    const saltRounds = 10;
+    const hash = await bcrypt.hash(requestUserPassword, saltRounds);
+    return hash;
+  };
 
   userSchema.statics.toResponse = user => {
     const { _id, name, login } = user;
