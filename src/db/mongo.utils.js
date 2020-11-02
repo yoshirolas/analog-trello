@@ -8,6 +8,11 @@ const getEntity = async (mongooseModel, id) => {
   return entity;
 };
 
+const getEntityByParam = async (mongooseModel, searchParam) => {
+  const entity = await mongooseModel.find(searchParam).lean();
+  return entity;
+};
+
 const createEntity = async (mongooseModel, entity) => {
   if (!entity) {
     console.error('To create new entity please fill its model');
@@ -32,6 +37,7 @@ const removeEntity = async (mongooseModel, id) => {
 module.exports = {
   getAllEntities,
   getEntity,
+  getEntityByParam,
   createEntity,
   updateEntity,
   removeEntity

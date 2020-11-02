@@ -13,6 +13,11 @@ const getById = async id => {
   return user;
 };
 
+const getByLogin = async login => {
+  const users = await dbUtils.getEntityByParam(mongooseModel, {login: login});
+  return users;
+};
+
 const add = async user => {
   const newUser = await dbUtils.createEntity(mongooseModel, user);
   return newUser;
@@ -29,4 +34,4 @@ const remove = async id => {
 };
 
 
-module.exports = { getAll, getById, add, update, remove };
+module.exports = { getAll, getById, getByLogin, add, update, remove };
