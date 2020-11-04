@@ -24,8 +24,9 @@ router.route('/:id').get(async (req, res, next) => {
 router.route('/').post(async (req, res, next) => {
   try {
     const { name, login, password } = req.body;
-    const newUser = new User({ name, login, password });
-    const user = await usersService.add(newUser);
+    const encodedPassword = await User.encodePassword(password);
+    const newUserData = { name, login, password: encodedPassword };
+    const user = await usersService.add(newUserData);
     res.status(200).json(User.toResponse(user));
   } catch (error) {
     return next(error);
@@ -36,7 +37,8 @@ router.route('/:id').put(async (req, res, next) => {
   try {
     const id = req.params.id;
     const { name, login, password } = req.body;
-    const updateUserData = { id, name, login, password };
+    const encodedPassword = await User.encodePassword(password, id);
+    const updateUserData = { id, name, login, password: encodedPassword };
     const user = await usersService.update(updateUserData);
     res.status(200).json(User.toResponse(user));
   } catch (error) {

@@ -16,16 +16,17 @@ const connect = onSuccessConnection => {
     db.on('error', () => {
       throw new Error('Could not connect to DB');
     });
-    db.once('open', () => {
+    db.once('open', async () => {
       db.dropDatabase();
       console.log('Successfully connected to DB');
 
       // Adds mock DB data
       for (let i = 0; i < 5; i++) {
+        const encodedPassword = await User.encodePassword('123');
         const newUser = new User({
           name: `user-${i}`,
           login: `login-${i}`,
-          password: '123'
+          password: encodedPassword
         });
         const newBoard = new Board({
           title: `board-${i}`,
@@ -34,6 +35,17 @@ const connect = onSuccessConnection => {
         newUser.save();
         newBoard.save();
       }
+
+      // Add admin for tests
+      const encodedAdminPassword = await User.encodePassword('admin');
+      const adminData = {
+        name: 'admin',
+        login: 'admin',
+        password: encodedAdminPassword
+      };
+      const admin = new User(adminData);
+      admin.save();
+
       onSuccessConnection();
     });
   } else {

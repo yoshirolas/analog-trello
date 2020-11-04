@@ -14,6 +14,12 @@ const getById = async id => {
   return user;
 };
 
+const getByLogin = async login => {
+  const users = await usersRepo.getByLogin(login);
+  if (!users.length) throw new createErr(403, 'Forbidden');
+  return users;
+};
+
 const add = async user => {
   const newUser = await usersRepo.add(user);
   if (!newUser) throw new createErr(400, 'Could not create the new User');
@@ -35,4 +41,4 @@ const remove = async id => {
   return deletedUser;
 };
 
-module.exports = { getAll, getById, add, update, remove };
+module.exports = { getAll, getById, getByLogin, add, update, remove };
