@@ -9,6 +9,7 @@ const loginRouter = require('./resources/login/login.router');
 const userRouter = require('./resources/users/user.router');
 const boardRouter = require('./resources/boards/board.router');
 const taskRouter = require('./resources/tasks/task.router');
+const checkAuth = require('./common/auth');
 
 const app = express();
 
@@ -37,6 +38,8 @@ app.use('/*', (req, res, next) => {
   });
   next();
 });
+
+app.use('/*', checkAuth);
 
 app.use('/doc', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 
