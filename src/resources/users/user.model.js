@@ -34,10 +34,16 @@ const getUserMongoModel = () => {
     password: String
   });
 
-  userSchema.statics.encodePassword = async (requestUserPassword, userId = null) => {
+  userSchema.statics.encodePassword = async (
+    requestUserPassword,
+    userId = null
+  ) => {
     if (userId) {
       const user = await mongoose.model('User', userSchema).findById(userId);
-      const isItOldPassword = await bcrypt.compare(requestUserPassword, user.password);
+      const isItOldPassword = await bcrypt.compare(
+        requestUserPassword,
+        user.password
+      );
       if (isItOldPassword) return user.password; // Don't encode the same password double
     }
 

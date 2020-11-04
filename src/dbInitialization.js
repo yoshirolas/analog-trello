@@ -36,7 +36,7 @@ const connect = onSuccessConnection => {
         newBoard.save();
       }
 
-      //Add admin for tests
+      // Add admin for tests
       const encodedAdminPassword = await User.encodePassword('admin');
       const adminData = {
         name: 'admin',

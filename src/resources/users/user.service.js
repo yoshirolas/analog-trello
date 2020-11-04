@@ -16,7 +16,7 @@ const getById = async id => {
 
 const getByLogin = async login => {
   const users = await usersRepo.getByLogin(login);
-  if (!users.length) throw new createErr(403, `Forbidden`);
+  if (!users.length) throw new createErr(403, 'Forbidden');
   return users;
 };
 
